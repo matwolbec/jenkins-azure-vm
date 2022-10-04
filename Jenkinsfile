@@ -19,8 +19,7 @@ pipeline {
                 storage_account_name = credentials('storage_account_name')
                 container_name = credentials('container_name')
                 key = credentials('key')
-                TF_VAR_private_key_file = credentials('public_key_file')
-
+                public_key_file = credentials('public_key_file')
             }
             steps {
                 script {
@@ -28,7 +27,8 @@ pipeline {
                             --backend-config "resource_group_name=${resource_group_name}" \
                             --backend-config "storage_account_name=${storage_account_name}" \
                             --backend-config "container_name=${container_name}" \
-                            --backend-config "key=${key}"'
+                            --backend-config "key=${key}" \
+                            -var "public_key=${public_key_file}"'
                             
                     sh 'terraform apply --auto-approve'
                 }
