@@ -19,7 +19,8 @@ pipeline {
                 storage_account_name = credentials('storage_account_name')
                 container_name = credentials('container_name')
                 key = credentials('key')
-                public_key_file = credentials('public_key_file')
+                TF_VAR_private_key_file = credentials('public_key_file')
+
             }
             steps {
                 script {
