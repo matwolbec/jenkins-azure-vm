@@ -27,10 +27,10 @@ pipeline {
                             --backend-config "resource_group_name=${resource_group_name}" \
                             --backend-config "storage_account_name=${storage_account_name}" \
                             --backend-config "container_name=${container_name}" \
-                            --backend-config "key=${key}" \
-                            -var "public_key_file=${public_key_file}"'
+                            --backend-config "key=${key}"'
                             
-                    sh 'terraform apply --auto-approve'
+                    sh 'terraform apply --auto-approve \
+                            -var "public_key_file=${public_key_file}"'
                 }
             }
         }
