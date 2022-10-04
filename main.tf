@@ -119,7 +119,7 @@ resource "azurerm_linux_virtual_machine" "default" {
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("~/.ssh/id_azure_tf.pub")
+    public_key = "${file("${var.public_key_file}")}"
   }
 
   os_disk {
