@@ -86,9 +86,8 @@ pipeline {
                 script {
                     def IS_APPROVED = input(
                         message: "Destroy?",
-                        ok: "Yes",
                         parameters: [
-                            string(name: 'IS_APPROVED', defaultValue: 'No', description: 'Are you sure?')
+                            string(name: 'IS_APPROVED', defaultValue: 'Yes', description: 'Are you sure?')
                         ]
                     )
                     if (IS_APPROVED != 'Yes') {
@@ -104,7 +103,8 @@ pipeline {
                             --backend-config "container_name=${container_name}" \
                             --backend-config "key=${key}"'
                             
-                    sh 'terraform destroy --auto-approve'
+                    sh 'terraform destroy --auto-approve \
+                            -var "public_key_file=${public_key_file}"'
                 }
             }
         }
