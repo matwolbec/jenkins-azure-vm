@@ -28,7 +28,7 @@ pipeline {
                             --backend-config "storage_account_name=${storage_account_name}" \
                             --backend-config "container_name=${container_name}" \
                             --backend-config "key=${key}" \
-                            -var "public_key=${public_key_file}"'
+                            -var "public_key_file=${public_key_file}"'
                             
                     sh 'terraform apply --auto-approve'
                 }

@@ -41,3 +41,8 @@ variable "nic" {
 variable "vm" {
     default = "vmlinux"
 }
+
+
+variable "var.public_key_file" {
+  type = string
+}
