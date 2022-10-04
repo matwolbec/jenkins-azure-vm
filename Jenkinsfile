@@ -57,6 +57,11 @@ pipeline {
 
 
         stage('Terraform Apply') {
+           when { anyOf
+                    {
+                        environment name: 'ACTION', value: 'apply';
+                    }
+                }
             steps {
                 script {
                     sh 'terraform init \
