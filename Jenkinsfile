@@ -49,7 +49,8 @@ pipeline {
                             --backend-config "container_name=${container_name}" \
                             --backend-config "key=${key}"'
                             
-                    sh 'terraform plan'
+                    sh 'terraform plan \
+                            -var "public_key_file=${public_key_file}"'
                 }
             }
         }
