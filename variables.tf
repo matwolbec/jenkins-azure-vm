@@ -43,6 +43,6 @@ variable "vm" {
 }
 
 
-variable "var.public_key_file" {
+variable "public_key_file" {
   type = string
 }
