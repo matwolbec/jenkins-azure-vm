@@ -138,3 +138,9 @@ resource "azurerm_linux_virtual_machine" "default" {
 output "azurerm_public_ip" {
   value = azurerm_public_ip.default.ip_address
 }
+
+resource "local_file" "default" {
+  depends_on   = [azurerm_linux_virtual_machine.default]
+  filename     = "azurerm_linux_virtual_machine_public_ip"
+  content      = azurerm_public_ip.default.ip_address
+}
