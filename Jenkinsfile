@@ -25,6 +25,10 @@ pipeline {
         choice (name: 'ACTION',
                 choices: [ 'plan', 'apply', 'destroy'],
                 description: 'Run terraform plan / apply / destroy')
+
+        choice (name: 'DOCKER',
+                choices: [ 'no', 'yes'],
+                description: 'Pre-install docker engine')
     }
 
     stages {
@@ -106,6 +110,24 @@ pipeline {
                     sh 'terraform destroy --auto-approve \
                             -var "public_key_file=${public_key_file}"'
                 }
+            }
+        }
+        
+        stage('Install Docker Engine') {
+           when { anyOf
+                    {
+                        environment name: 'DOCKER', value: 'yes';
+                    }
+                }
+            steps {
+                    ansiblePlaybook(
+                        become: true,
+                        colorized: true,
+                        credentialsId: 'TF_adminuser_key',
+                        inventory: 'azurerm_linux_virtual_machine_public_ip',
+                        disableHostKeyChecking: true,
+                        installation: 'ansible',
+                        playbook: 'ansible.yml')
             }
         }
     }
