@@ -1,14 +1,43 @@
 ---
+- hosts: all
+  become: true
 
-- name: Run the test playbook
-  gather_facts: false
-  hosts: localhost
   tasks:
-    - name: Get the username running this playbook
-      become: false
-      local_action: command whoami
-      register: username_on_the_host
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
 
-    - name: Display the User name
-      ansible.builtin.debug:
-        msg: "Hello User {{ username_on_the_host.stdout }} from Jenkins and Ansible!!"
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
